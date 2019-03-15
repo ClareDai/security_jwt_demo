@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.claredai.mapper.SysMenuMapper">
+  <resultMap id="BaseResultMap" type="cn.claredai.model.SysMenu">
+    <result column="menu_id" jdbcType="INTEGER" property="menuId" />
+    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="menu_type" jdbcType="CHAR" property="menuType" />
+    <result column="visible" jdbcType="CHAR" property="visible" />
+    <result column="perms" jdbcType="VARCHAR" property="perms" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon
+  </sql>
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="cn.claredai.model.SysMenu">
+    insert into sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        menu_id,
+      </if>
+      <if test="menuName != null">
+        menu_name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="menuType != null">
+        menu_type,
+      </if>
+      <if test="visible != null">
+        visible,
+      </if>
+      <if test="perms != null">
+        perms,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null">
+        #{menuType,jdbcType=CHAR},
+      </if>
+      <if test="visible != null">
+        #{visible,jdbcType=CHAR},
+      </if>
+      <if test="perms != null">
+        #{perms,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from sys_menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </delete>
+  <update id="update" parameterType="cn.claredai.model.SysMenu">
+    update sys_menu
+    <set>
+      <if test="menuName != null">
+        menu_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null">
+        menu_type = #{menuType,jdbcType=CHAR},
+      </if>
+      <if test="visible != null">
+        visible = #{visible,jdbcType=CHAR},
+      </if>
+      <if test="perms != null">
+        perms = #{perms,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+  <select id="selectMenuByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select c.perms from sys_user_role a , sys_role_menu b
+    left join sys_menu c
+    on b.menu_id = c.menu_id
+    where a.role_id = b.role_id
+    and a.user_id = #{userId,jdbcType=INTEGER}
+    and c.perms != ''
+  </select>
+</mapper>

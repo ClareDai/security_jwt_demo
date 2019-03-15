@@ -1,0 +1,35 @@
+server:
+  port: 8091
+#���ݿ�����
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/springboot?serverTimezone=GMT%2B8&characterEncoding=utf8&useUnicode=true&useSSL=false
+    username: root
+    password: 123456
+  #druid����
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filter: stat,wall,log4j
+#mapper����
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: cn.claredai.model
+#mybatis��ӡsql
+#logging:
+#  level:
+#    cn.claredai: DEBUG
+#    org.springframework: WARN
+#    cn.claredai.mapper: DEBUG
